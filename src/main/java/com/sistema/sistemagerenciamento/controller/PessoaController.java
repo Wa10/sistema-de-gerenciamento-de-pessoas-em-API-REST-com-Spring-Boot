@@ -2,6 +2,7 @@ package com.sistema.sistemagerenciamento.controller;
 
 import com.sistema.sistemagerenciamento.dto.MessageResponseDTO;
 import com.sistema.sistemagerenciamento.dto.request.PessoaDTO;
+import com.sistema.sistemagerenciamento.exception.PessoaNotFoundException;
 import com.sistema.sistemagerenciamento.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,11 @@ public class PessoaController {
     @GetMapping
     public List<PessoaDTO> listAll(){
         return pessoaService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PessoaDTO findById(@PathVariable Long id) throws PessoaNotFoundException {
+        return pessoaService.findById(id);
     }
 
 }

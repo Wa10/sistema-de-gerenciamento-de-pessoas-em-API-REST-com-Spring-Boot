@@ -4,13 +4,15 @@ package com.sistema.sistemagerenciamento.service;
 import com.sistema.sistemagerenciamento.dto.MessageResponseDTO;
 import com.sistema.sistemagerenciamento.dto.request.PessoaDTO;
 import com.sistema.sistemagerenciamento.entity.Pessoa;
+import com.sistema.sistemagerenciamento.exception.PessoaNotFoundException;
 import com.sistema.sistemagerenciamento.mapper.PessoaMapper;
 import com.sistema.sistemagerenciamento.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,5 +41,13 @@ public class PessoaService {
         return todasPessoas.stream()
                 .map(pessoaMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+
+    public PessoaDTO findById(Long id) throws PessoaNotFoundException {
+        Pessoa pessoa = pessoaRepository.findById(id)
+                .orElseThrow(() -> new PessoaNotFoundException(id));
+
+        return pessoaMapper.toDTO(pessoa);
     }
 }
