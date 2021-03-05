@@ -33,4 +33,6 @@ public class Pessoa {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private List<Telefone> telefones = new ArrayList<>();
+
+
 }

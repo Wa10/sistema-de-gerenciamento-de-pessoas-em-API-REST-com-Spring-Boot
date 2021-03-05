@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PessoaService {
     private PessoaRepository pessoaRepository;
 
-    private final PessoaMapper personMapper = PessoaMapper.INSTANCE;
+    private final PessoaMapper pessoaMapper = PessoaMapper.INSTANCE;
 
     @Autowired
     public PessoaService(PessoaRepository personRepository){
@@ -23,7 +26,7 @@ public class PessoaService {
 
     public MessageResponseDTO createPessoa(PessoaDTO pessoaDTO){
 
-        Pessoa pessoaParaSalvar = personMapper.toModel(pessoaDTO);
+        Pessoa pessoaParaSalvar = pessoaMapper.toModel(pessoaDTO);
         Pessoa savePessoa = pessoaRepository.save(pessoaParaSalvar);
         return MessageResponseDTO
                 .builder()
@@ -31,4 +34,10 @@ public class PessoaService {
                 .build();
     }
 
+    public List<PessoaDTO> listAll() {
+        List<Pessoa> todasPessoas = pessoaRepository.findAll();
+        return todasPessoas.stream()
+                .map(pessoaMapper::toDTO)
+                .collect(Collectors.toList());
+    }
 }
