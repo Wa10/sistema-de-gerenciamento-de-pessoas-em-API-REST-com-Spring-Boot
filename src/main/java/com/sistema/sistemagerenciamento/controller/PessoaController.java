@@ -38,4 +38,14 @@ public class PessoaController {
         return pessoaService.findById(id);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws PessoaNotFoundException {
+        pessoaService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid PessoaDTO pessoaDTO) throws PessoaNotFoundException {
+        return pessoaService.updateById(id, pessoaDTO);
+    }
 }
